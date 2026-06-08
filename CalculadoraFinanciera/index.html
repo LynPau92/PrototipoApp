@@ -10,14 +10,18 @@
   <style>
     :root {
       --white: #ffffff;
-      --aqua-50: #E0F7F4;
-      --aqua-300: #4DB8B2;
-      --aqua-500: #00A19A;
-      --aqua-600: #008C87;
-      --aqua-900: #006D6A;
-      --text: #00403E;
-      --text-soft: #4DB8B2;
-      --shadow: 0 20px 60px rgba(0, 109, 106, 0.12);
+      --navy: #042C53;
+      --navy-soft: #0A477A;
+      --teal: #008C87;
+      --teal-bright: #00A19A;
+      --teal-soft: #DFF7F5;
+      --amber: #F2B84B;
+      --amber-soft: #FFF4D8;
+      --surface: #F6FBFA;
+      --line: rgba(4, 44, 83, 0.14);
+      --text: #042C53;
+      --text-soft: #008C87;
+      --shadow: 0 20px 60px rgba(4, 44, 83, 0.14);
     }
 
     * { box-sizing: border-box; }
@@ -27,8 +31,9 @@
       min-height: 100vh;
       font-family: "DM Sans", system-ui, sans-serif;
       background:
-        radial-gradient(circle at top left, rgba(224, 247, 244, 0.9), transparent 36%),
-        linear-gradient(180deg, var(--white) 0%, var(--aqua-50) 100%);
+        radial-gradient(circle at top left, rgba(242, 184, 75, 0.24), transparent 34%),
+        radial-gradient(circle at bottom right, rgba(0, 161, 154, 0.2), transparent 35%),
+        linear-gradient(180deg, var(--white) 0%, var(--surface) 100%);
       color: var(--text);
       display: flex;
       justify-content: center;
@@ -49,7 +54,7 @@
     .app {
       min-height: 100vh;
       padding: 22px 18px 94px;
-      background: linear-gradient(180deg, var(--white), var(--aqua-50));
+      background: linear-gradient(180deg, var(--white), var(--surface));
     }
 
     .screen { display: none; }
@@ -91,23 +96,23 @@
       border-radius: 12px;
       display: grid;
       place-items: center;
-      background: var(--aqua-900);
+      background: var(--navy);
       color: var(--white);
       font-weight: 800;
-      border: 0.5px solid var(--aqua-300);
+      border: 0.5px solid rgba(242, 184, 75, 0.62);
     }
 
     .card {
       background: var(--white);
-      border: 0.5px solid var(--aqua-300);
+      border: 0.5px solid var(--line);
       border-radius: 12px;
       padding: 16px;
-      box-shadow: 0 12px 35px rgba(0, 109, 106, 0.08);
+      box-shadow: 0 12px 35px rgba(4, 44, 83, 0.08);
     }
 
     .soft-card {
-      background: var(--aqua-50);
-      border: 0.5px solid var(--aqua-300);
+      background: var(--teal-soft);
+      border: 0.5px solid var(--line);
       border-radius: 12px;
       padding: 16px;
     }
@@ -116,13 +121,15 @@
     .section { margin-top: 18px; }
 
     .summary-card {
-      background: linear-gradient(140deg, var(--aqua-900), var(--aqua-600));
+      background:
+        radial-gradient(circle at 88% 16%, rgba(242, 184, 75, 0.34), transparent 28%),
+        linear-gradient(140deg, var(--navy), var(--navy-soft) 56%, var(--teal));
       color: var(--white);
-      border-color: var(--aqua-300);
+      border-color: rgba(242, 184, 75, 0.7);
     }
 
     .summary-card * { color: var(--white); }
-    .summary-card .muted { color: var(--aqua-50); }
+    .summary-card .muted { color: var(--amber-soft); }
 
     .big-value {
       font-size: 32px;
@@ -145,7 +152,7 @@
 
     .quick-btn {
       min-height: 92px;
-      border: 0.5px solid var(--aqua-300);
+      border: 0.5px solid var(--line);
       border-radius: 12px;
       background: var(--white);
       color: var(--text);
@@ -167,10 +174,13 @@
       display: grid;
       place-items: center;
       color: var(--white);
-      background: var(--aqua-500);
+      background: var(--teal);
       font-weight: 900;
       flex: 0 0 auto;
     }
+
+    .quick-btn:nth-child(2) .icon { background: var(--navy); }
+    .quick-btn:nth-child(3) .icon { background: var(--amber); color: var(--navy); }
 
     .list { display: grid; gap: 10px; }
 
@@ -179,7 +189,7 @@
       align-items: center;
       gap: 12px;
       background: var(--white);
-      border: 0.5px solid var(--aqua-300);
+      border: 0.5px solid var(--line);
       border-radius: 12px;
       padding: 12px;
     }
@@ -187,7 +197,7 @@
     .list-main { flex: 1; min-width: 0; }
     .list-title { font-weight: 800; font-size: 14px; }
     .list-meta { color: var(--text-soft); font-size: 12px; font-weight: 700; margin-top: 2px; }
-    .list-value { text-align: right; font-weight: 900; font-size: 13px; color: var(--aqua-900); }
+    .list-value { text-align: right; font-weight: 900; font-size: 13px; color: var(--navy); }
 
     .segmented {
       display: grid;
@@ -195,8 +205,8 @@
       gap: 5px;
       padding: 5px;
       border-radius: 999px;
-      background: var(--aqua-50);
-      border: 0.5px solid var(--aqua-300);
+      background: var(--teal-soft);
+      border: 0.5px solid var(--line);
     }
 
     .segmented button {
@@ -204,16 +214,16 @@
       border-radius: 999px;
       min-height: 36px;
       background: transparent;
-      color: var(--aqua-900);
+      color: var(--navy);
       font-size: 12px;
       font-weight: 800;
       cursor: pointer;
     }
 
     .segmented button.active {
-      background: var(--aqua-500);
+      background: var(--teal);
       color: var(--white);
-      box-shadow: 0 8px 18px rgba(0, 161, 154, 0.22);
+      box-shadow: 0 8px 18px rgba(0, 140, 135, 0.24);
     }
 
     .calc-picker {
@@ -234,15 +244,15 @@
     label {
       font-size: 12px;
       font-weight: 800;
-      color: var(--aqua-900);
+      color: var(--navy);
     }
 
     input, select {
       width: 100%;
       min-height: 46px;
       border-radius: 12px;
-      border: 0.5px solid var(--aqua-300);
-      background: var(--aqua-50);
+      border: 0.5px solid rgba(0, 140, 135, 0.42);
+      background: var(--surface);
       color: var(--text);
       padding: 0 12px;
       font-size: 15px;
@@ -251,8 +261,8 @@
     }
 
     input:focus, select:focus {
-      border-color: var(--aqua-900);
-      box-shadow: 0 0 0 3px rgba(77, 184, 178, 0.22);
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(242, 184, 75, 0.26);
     }
 
     .primary-btn, .secondary-btn {
@@ -265,23 +275,25 @@
     }
 
     .primary-btn {
-      background: var(--aqua-900);
+      background: var(--navy);
       color: var(--white);
-      box-shadow: 0 12px 26px rgba(0, 109, 106, 0.22);
+      box-shadow: 0 12px 26px rgba(4, 44, 83, 0.24);
     }
 
     .secondary-btn {
-      background: var(--aqua-50);
-      color: var(--aqua-900);
-      border: 0.5px solid var(--aqua-300);
+      background: var(--amber-soft);
+      color: var(--navy);
+      border: 0.5px solid rgba(242, 184, 75, 0.62);
     }
 
     .result-box {
       background: var(--white);
-      border: 0.5px solid var(--aqua-300);
+      border: 0.5px solid var(--line);
       border-radius: 12px;
       padding: 16px;
     }
+
+    .result-box .big-value { color: var(--teal); }
 
     .metrics {
       display: grid;
@@ -291,8 +303,8 @@
     }
 
     .metric {
-      background: var(--aqua-50);
-      border: 0.5px solid var(--aqua-300);
+      background: var(--surface);
+      border: 0.5px solid var(--line);
       border-radius: 12px;
       padding: 12px;
       min-height: 76px;
@@ -313,7 +325,7 @@
 
     .table-wrap {
       overflow-x: auto;
-      border: 0.5px solid var(--aqua-300);
+      border: 0.5px solid var(--line);
       border-radius: 12px;
       background: var(--white);
     }
@@ -329,12 +341,12 @@
     th, td {
       padding: 10px 8px;
       text-align: right;
-      border-bottom: 0.5px solid var(--aqua-50);
+      border-bottom: 0.5px solid var(--surface);
       white-space: nowrap;
     }
 
     th:first-child, td:first-child { text-align: left; }
-    th { color: var(--aqua-900); background: var(--aqua-50); font-weight: 900; }
+    th { color: var(--navy); background: var(--amber-soft); font-weight: 900; }
     tr:last-child td { border-bottom: 0; }
 
     .profile-head {
@@ -355,7 +367,7 @@
       justify-content: space-between;
       gap: 12px;
       padding: 14px 0;
-      border-bottom: 0.5px solid var(--aqua-50);
+      border-bottom: 0.5px solid var(--surface);
       color: var(--text);
       font-weight: 800;
     }
@@ -367,8 +379,8 @@
       height: 30px;
       border-radius: 999px;
       padding: 4px;
-      background: var(--aqua-50);
-      border: 0.5px solid var(--aqua-300);
+      background: var(--surface);
+      border: 0.5px solid var(--line);
       cursor: pointer;
     }
 
@@ -377,13 +389,13 @@
       width: 20px;
       height: 20px;
       border-radius: 999px;
-      background: var(--aqua-300);
+      background: var(--teal);
       transition: transform 0.2s ease, background 0.2s ease;
     }
 
     .switch.on span {
       transform: translateX(22px);
-      background: var(--aqua-900);
+      background: var(--amber);
     }
 
     .empty {
@@ -392,8 +404,8 @@
       place-items: center;
       text-align: center;
       gap: 12px;
-      background: var(--aqua-50);
-      border: 0.5px solid var(--aqua-300);
+      background: var(--surface);
+      border: 0.5px solid var(--line);
       border-radius: 12px;
       padding: 22px;
     }
@@ -414,7 +426,7 @@
       transform: translateX(-50%) translateY(18px);
       width: min(360px, calc(100% - 40px));
       padding: 12px 14px;
-      background: var(--aqua-900);
+      background: var(--navy);
       color: var(--white);
       border-radius: 12px;
       font-weight: 800;
@@ -442,7 +454,7 @@
       gap: 4px;
       padding: 8px 10px 12px;
       background: rgba(255, 255, 255, 0.96);
-      border-top: 0.5px solid var(--aqua-300);
+      border-top: 0.5px solid var(--line);
       backdrop-filter: blur(12px);
       z-index: 10;
     }
@@ -472,8 +484,8 @@
     }
 
     .nav-btn.active {
-      background: var(--aqua-50);
-      color: var(--aqua-900);
+      background: var(--navy);
+      color: var(--white);
     }
 
     .hidden { display: none !important; }
@@ -671,7 +683,7 @@
             <div class="avatar" id="avatar">MR</div>
             <div class="field" style="flex:1;">
               <label for="profile-name">Nombre de usuario</label>
-              <input id="profile-name" value="Maria Rodriguez">
+              <input id="profile-name" value="Karolyn Paulino">
             </div>
           </div>
           <div class="form-grid">
@@ -916,9 +928,9 @@
       return `<div class="empty">
         <div class="empty-art">
           <svg viewBox="0 0 118 90" aria-hidden="true">
-            <rect x="18" y="18" width="82" height="58" rx="12" fill="#ffffff" stroke="#4DB8B2"/>
-            <path d="M32 36h54M32 50h38M32 64h46" stroke="#00A19A" stroke-width="4" stroke-linecap="round"/>
-            <circle cx="92" cy="21" r="13" fill="#006D6A"/>
+            <rect x="18" y="18" width="82" height="58" rx="12" fill="#ffffff" stroke="#042C53"/>
+            <path d="M32 36h54M32 50h38M32 64h46" stroke="#008C87" stroke-width="4" stroke-linecap="round"/>
+            <circle cx="92" cy="21" r="13" fill="#F2B84B"/>
             <path d="M87 21h10M92 16v10" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
           </svg>
         </div>
@@ -1009,3 +1021,4 @@
   </script>
 </body>
 </html>
+
