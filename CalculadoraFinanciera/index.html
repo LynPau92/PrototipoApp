@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculadoras Financieras RD</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --white: #ffffff;
+      --aqua-50: #E0F7F4;
+      --aqua-300: #4DB8B2;
+      --aqua-500: #00A19A;
+      --aqua-600: #008C87;
+      --aqua-900: #006D6A;
+      --text: #00403E;
+      --text-soft: #4DB8B2;
+      --shadow: 0 20px 60px rgba(0, 109, 106, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "DM Sans", system-ui, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(224, 247, 244, 0.9), transparent 36%),
+        linear-gradient(180deg, var(--white) 0%, var(--aqua-50) 100%);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      letter-spacing: 0;
+    }
+
+    button, input, select { font: inherit; }
+
+    .phone {
+      width: min(100%, 430px);
+      min-height: 100vh;
+      background: var(--white);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .app {
+      min-height: 100vh;
+      padding: 22px 18px 94px;
+      background: linear-gradient(180deg, var(--white), var(--aqua-50));
+    }
+
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    .topline {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .eyebrow {
+      margin: 0 0 4px;
+      color: var(--text-soft);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      color: var(--text);
+    }
+
+    h1, .brand {
+      font-family: "DM Serif Display", Georgia, serif;
+      font-weight: 400;
+    }
+
+    h1 { font-size: 34px; line-height: 0.98; }
+    h2 { font-size: 18px; margin-bottom: 12px; }
+    h3 { font-size: 15px; }
+
+    .brand-mark, .avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: var(--aqua-900);
+      color: var(--white);
+      font-weight: 800;
+      border: 0.5px solid var(--aqua-300);
+    }
+
+    .card {
+      background: var(--white);
+      border: 0.5px solid var(--aqua-300);
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 12px 35px rgba(0, 109, 106, 0.08);
+    }
+
+    .soft-card {
+      background: var(--aqua-50);
+      border: 0.5px solid var(--aqua-300);
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .stack { display: grid; gap: 14px; }
+    .section { margin-top: 18px; }
+
+    .summary-card {
+      background: linear-gradient(140deg, var(--aqua-900), var(--aqua-600));
+      color: var(--white);
+      border-color: var(--aqua-300);
+    }
+
+    .summary-card * { color: var(--white); }
+    .summary-card .muted { color: var(--aqua-50); }
+
+    .big-value {
+      font-size: 32px;
+      line-height: 1;
+      font-weight: 800;
+      margin: 10px 0 8px;
+    }
+
+    .muted {
+      color: var(--text-soft);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .quick-btn {
+      min-height: 92px;
+      border: 0.5px solid var(--aqua-300);
+      border-radius: 12px;
+      background: var(--white);
+      color: var(--text);
+      padding: 11px 8px;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      gap: 8px;
+      font-weight: 800;
+      font-size: 12px;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      color: var(--white);
+      background: var(--aqua-500);
+      font-weight: 900;
+      flex: 0 0 auto;
+    }
+
+    .list { display: grid; gap: 10px; }
+
+    .list-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--white);
+      border: 0.5px solid var(--aqua-300);
+      border-radius: 12px;
+      padding: 12px;
+    }
+
+    .list-main { flex: 1; min-width: 0; }
+    .list-title { font-weight: 800; font-size: 14px; }
+    .list-meta { color: var(--text-soft); font-size: 12px; font-weight: 700; margin-top: 2px; }
+    .list-value { text-align: right; font-weight: 900; font-size: 13px; color: var(--aqua-900); }
+
+    .segmented {
+      display: grid;
+      grid-template-columns: repeat(var(--cols, 2), 1fr);
+      gap: 5px;
+      padding: 5px;
+      border-radius: 999px;
+      background: var(--aqua-50);
+      border: 0.5px solid var(--aqua-300);
+    }
+
+    .segmented button {
+      border: 0;
+      border-radius: 999px;
+      min-height: 36px;
+      background: transparent;
+      color: var(--aqua-900);
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .segmented button.active {
+      background: var(--aqua-500);
+      color: var(--white);
+      box-shadow: 0 8px 18px rgba(0, 161, 154, 0.22);
+    }
+
+    .calc-picker {
+      --cols: 3;
+      border-radius: 14px;
+      margin-bottom: 14px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .field { display: grid; gap: 7px; }
+    .field.full { grid-column: 1 / -1; }
+
+    label {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--aqua-900);
+    }
+
+    input, select {
+      width: 100%;
+      min-height: 46px;
+      border-radius: 12px;
+      border: 0.5px solid var(--aqua-300);
+      background: var(--aqua-50);
+      color: var(--text);
+      padding: 0 12px;
+      font-size: 15px;
+      font-weight: 500;
+      outline: none;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--aqua-900);
+      box-shadow: 0 0 0 3px rgba(77, 184, 178, 0.22);
+    }
+
+    .primary-btn, .secondary-btn {
+      width: 100%;
+      border: 0;
+      border-radius: 12px;
+      min-height: 48px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .primary-btn {
+      background: var(--aqua-900);
+      color: var(--white);
+      box-shadow: 0 12px 26px rgba(0, 109, 106, 0.22);
+    }
+
+    .secondary-btn {
+      background: var(--aqua-50);
+      color: var(--aqua-900);
+      border: 0.5px solid var(--aqua-300);
+    }
+
+    .result-box {
+      background: var(--white);
+      border: 0.5px solid var(--aqua-300);
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 13px;
+    }
+
+    .metric {
+      background: var(--aqua-50);
+      border: 0.5px solid var(--aqua-300);
+      border-radius: 12px;
+      padding: 12px;
+      min-height: 76px;
+    }
+
+    .metric span {
+      display: block;
+      color: var(--text-soft);
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .metric strong {
+      font-size: 15px;
+      color: var(--text);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 0.5px solid var(--aqua-300);
+      border-radius: 12px;
+      background: var(--white);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 390px;
+      font-size: 12px;
+      color: var(--text);
+    }
+
+    th, td {
+      padding: 10px 8px;
+      text-align: right;
+      border-bottom: 0.5px solid var(--aqua-50);
+      white-space: nowrap;
+    }
+
+    th:first-child, td:first-child { text-align: left; }
+    th { color: var(--aqua-900); background: var(--aqua-50); font-weight: 900; }
+    tr:last-child td { border-bottom: 0; }
+
+    .profile-head {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .profile-head .avatar {
+      width: 64px;
+      height: 64px;
+      font-size: 22px;
+    }
+
+    .option-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 0.5px solid var(--aqua-50);
+      color: var(--text);
+      font-weight: 800;
+    }
+
+    .option-row:last-child { border-bottom: 0; }
+
+    .switch {
+      width: 52px;
+      height: 30px;
+      border-radius: 999px;
+      padding: 4px;
+      background: var(--aqua-50);
+      border: 0.5px solid var(--aqua-300);
+      cursor: pointer;
+    }
+
+    .switch span {
+      display: block;
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      background: var(--aqua-300);
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .switch.on span {
+      transform: translateX(22px);
+      background: var(--aqua-900);
+    }
+
+    .empty {
+      min-height: 250px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      gap: 12px;
+      background: var(--aqua-50);
+      border: 0.5px solid var(--aqua-300);
+      border-radius: 12px;
+      padding: 22px;
+    }
+
+    .empty-art {
+      width: 118px;
+      height: 90px;
+      display: grid;
+      place-items: end center;
+    }
+
+    .empty-art svg { width: 118px; height: 90px; }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 86px;
+      transform: translateX(-50%) translateY(18px);
+      width: min(360px, calc(100% - 40px));
+      padding: 12px 14px;
+      background: var(--aqua-900);
+      color: var(--white);
+      border-radius: 12px;
+      font-weight: 800;
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.22s ease;
+      z-index: 20;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
+      width: min(100%, 430px);
+      height: 78px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4px;
+      padding: 8px 10px 12px;
+      background: rgba(255, 255, 255, 0.96);
+      border-top: 0.5px solid var(--aqua-300);
+      backdrop-filter: blur(12px);
+      z-index: 10;
+    }
+
+    .nav-btn {
+      border: 0;
+      border-radius: 12px;
+      background: transparent;
+      color: var(--text-soft);
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .nav-btn svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .nav-btn.active {
+      background: var(--aqua-50);
+      color: var(--aqua-900);
+    }
+
+    .hidden { display: none !important; }
+    .footer { text-align: center; color: var(--text-soft); font-size: 12px; font-weight: 800; margin-top: 22px; }
+
+    @media (max-width: 360px) {
+      .app { padding-inline: 12px; }
+      h1 { font-size: 30px; }
+      .form-grid, .metrics { grid-template-columns: 1fr; }
+      .quick-grid { grid-template-columns: 1fr; }
+      .calc-picker { --cols: 1; border-radius: 12px; }
+      .segmented button { border-radius: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="phone">
+    <div class="app">
+      <section id="screen-home" class="screen active">
+        <header class="topline">
+          <div>
+            <p class="eyebrow">Buenas noches</p>
+            <h1>Finanzas claras</h1>
+          </div>
+          <div class="brand-mark brand">RD</div>
+        </header>
+
+        <article class="card summary-card">
+          <p class="muted">Ultima simulacion</p>
+          <div class="big-value" id="home-last-value">RD$ 0.00</div>
+          <h3 id="home-last-title">Todavia no hay calculos</h3>
+          <p class="muted" id="home-last-detail">Haz tu primera simulacion en la pestaña Calcular.</p>
+        </article>
+
+        <section class="section">
+          <h2>Acceso rapido</h2>
+          <div class="quick-grid">
+            <button class="quick-btn" data-quick="consumer"><span class="icon">$</span>Prestamo Consumo</button>
+            <button class="quick-btn" data-quick="mortgage"><span class="icon">H</span>Hipotecario</button>
+            <button class="quick-btn" data-quick="investment"><span class="icon">%</span>Inversiones</button>
+          </div>
+        </section>
+
+        <section class="section">
+          <h2>Calculos recientes</h2>
+          <div id="recent-list" class="list"></div>
+        </section>
+      </section>
+
+      <section id="screen-calc" class="screen">
+        <header class="topline">
+          <div>
+            <p class="eyebrow">Calculadoras</p>
+            <h1>Simula hoy</h1>
+          </div>
+          <div class="brand-mark">=</div>
+        </header>
+
+        <div class="segmented calc-picker" id="calc-picker">
+          <button class="active" data-calc="consumer">Consumo</button>
+          <button data-calc="mortgage">Hipotecario</button>
+          <button data-calc="investment">Inversiones</button>
+        </div>
+
+        <div id="calculator-consumer" class="calculator stack">
+          <form id="consumer-form" class="card stack">
+            <h2>Prestamo Consumo</h2>
+            <div class="form-grid">
+              <div class="field full">
+                <label for="consumer-amount">Monto RD$</label>
+                <input id="consumer-amount" type="number" min="0" step="1000" value="250000">
+              </div>
+              <div class="field">
+                <label for="consumer-term">Plazo</label>
+                <input id="consumer-term" type="number" min="1" step="1" value="36">
+              </div>
+              <div class="field">
+                <label>Unidad</label>
+                <div class="segmented" data-segment="consumer-term-unit">
+                  <button type="button" class="active" data-value="months">Meses</button>
+                  <button type="button" data-value="years">Años</button>
+                </div>
+              </div>
+              <div class="field">
+                <label for="consumer-rate">Tasa anual TNA %</label>
+                <input id="consumer-rate" type="number" min="0" step="0.01" value="18">
+              </div>
+              <div class="field">
+                <label for="consumer-insurance">Seguro mensual RD$</label>
+                <input id="consumer-insurance" type="number" min="0" step="100" value="0">
+              </div>
+            </div>
+            <button class="primary-btn" type="submit">Calcular prestamo</button>
+          </form>
+          <div id="consumer-results"></div>
+        </div>
+
+        <div id="calculator-mortgage" class="calculator stack hidden">
+          <form id="mortgage-form" class="card stack">
+            <h2>Prestamo Hipotecario</h2>
+            <div class="form-grid">
+              <div class="field full">
+                <label for="mortgage-value">Valor inmueble RD$</label>
+                <input id="mortgage-value" type="number" min="0" step="10000" value="6500000">
+              </div>
+              <div class="field">
+                <label for="mortgage-down">Inicial</label>
+                <input id="mortgage-down" type="number" min="0" step="1" value="20">
+              </div>
+              <div class="field">
+                <label>Tipo inicial</label>
+                <div class="segmented" data-segment="mortgage-down-mode">
+                  <button type="button" class="active" data-value="percent">%</button>
+                  <button type="button" data-value="fixed">Monto</button>
+                </div>
+              </div>
+              <div class="field">
+                <label for="mortgage-years">Plazo años</label>
+                <input id="mortgage-years" type="number" min="1" max="30" step="1" value="20">
+              </div>
+              <div class="field">
+                <label for="mortgage-rate">Tasa anual TNA %</label>
+                <input id="mortgage-rate" type="number" min="0" step="0.01" value="12">
+              </div>
+              <div class="field full">
+                <label>Tipo de tasa</label>
+                <div class="segmented" data-segment="mortgage-rate-mode">
+                  <button type="button" class="active" data-value="fixed">Fija</button>
+                  <button type="button" data-value="variable">Variable</button>
+                </div>
+              </div>
+            </div>
+            <button class="primary-btn" type="submit">Calcular hipoteca</button>
+          </form>
+          <div id="mortgage-results"></div>
+        </div>
+
+        <div id="calculator-investment" class="calculator stack hidden">
+          <form id="investment-form" class="card stack">
+            <h2>Inversiones</h2>
+            <div class="form-grid">
+              <div class="field">
+                <label for="investment-initial">Capital inicial RD$</label>
+                <input id="investment-initial" type="number" min="0" step="1000" value="100000">
+              </div>
+              <div class="field">
+                <label for="investment-monthly">Aporte mensual RD$</label>
+                <input id="investment-monthly" type="number" min="0" step="1000" value="10000">
+              </div>
+              <div class="field">
+                <label for="investment-rate">Tasa anual TNA %</label>
+                <input id="investment-rate" type="number" min="0" step="0.01" value="10">
+              </div>
+              <div class="field">
+                <label for="investment-term">Plazo meses</label>
+                <input id="investment-term" type="number" min="1" step="1" value="24">
+              </div>
+              <div class="field full">
+                <label for="investment-mode">Modalidad</label>
+                <select id="investment-mode">
+                  <option value="simple">Interes Simple</option>
+                  <option value="compound" selected>Compuesto</option>
+                  <option value="certificate">Certificado</option>
+                </select>
+              </div>
+            </div>
+            <button class="primary-btn" type="submit">Calcular inversion</button>
+          </form>
+          <div id="investment-results"></div>
+        </div>
+      </section>
+
+      <section id="screen-history" class="screen">
+        <header class="topline">
+          <div>
+            <p class="eyebrow">Sesion actual</p>
+            <h1>Historial</h1>
+          </div>
+          <button class="secondary-btn" id="clear-history" style="width:auto; padding:0 14px;">Limpiar</button>
+        </header>
+        <div id="history-list" class="list"></div>
+      </section>
+
+      <section id="screen-profile" class="screen">
+        <header class="topline">
+          <div>
+            <p class="eyebrow">Preferencias</p>
+            <h1>Perfil</h1>
+          </div>
+          <div class="brand-mark">P</div>
+        </header>
+
+        <div class="card stack">
+          <div class="profile-head">
+            <div class="avatar" id="avatar">MR</div>
+            <div class="field" style="flex:1;">
+              <label for="profile-name">Nombre de usuario</label>
+              <input id="profile-name" value="Maria Rodriguez">
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="field">
+              <label for="profile-currency">Moneda base</label>
+              <select id="profile-currency">
+                <option selected>RD$</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="profile-rate">Preferencia tasa</label>
+              <select id="profile-rate">
+                <option selected>TNA</option>
+                <option>TEA</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="card section">
+          <div class="option-row"><span>Acerca de la app</span><span class="muted">v1.0</span></div>
+          <button class="option-row" id="export-history" style="width:100%; background:transparent; border:0; text-align:left; cursor:pointer;"><span>Exportar historial</span><span class="muted">CSV</span></button>
+          <div class="option-row"><span>Notificaciones</span><button class="switch on" data-switch><span></span></button></div>
+          <div class="option-row"><span>Modo oscuro</span><button class="switch" data-switch><span></span></button></div>
+        </div>
+        <p class="footer">Calculadoras Financieras RD - version 1.0</p>
+      </section>
+    </div>
+
+    <nav class="bottom-nav" aria-label="Navegacion principal">
+      <button class="nav-btn active" data-tab="home" aria-label="Inicio">
+        <svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10.5V20h14v-9.5"/><path d="M9 20v-6h6v6"/></svg>
+        Inicio
+      </button>
+      <button class="nav-btn" data-tab="calc" aria-label="Calcular">
+        <svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h2M14 11h2M8 15h2M14 15h2"/></svg>
+        Calcular
+      </button>
+      <button class="nav-btn" data-tab="history" aria-label="Historial">
+        <svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l3 2"/></svg>
+        Historial
+      </button>
+      <button class="nav-btn" data-tab="profile" aria-label="Perfil">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+        Perfil
+      </button>
+    </nav>
+    <div id="toast" class="toast"></div>
+  </main>
+
+  <script>
+    const state = {
+      tab: "home",
+      calc: "consumer",
+      history: [],
+      segments: {
+        "consumer-term-unit": "months",
+        "mortgage-down-mode": "percent",
+        "mortgage-rate-mode": "fixed"
+      }
+    };
+
+    const fmtMoney = value => Number(value || 0).toLocaleString("es-DO", {
+      style: "currency",
+      currency: "DOP",
+      currencyDisplay: "narrowSymbol",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).replace("DOP", "RD$");
+    const fmtNum = value => Number(value || 0).toLocaleString("es-DO", { maximumFractionDigits: 2 });
+    const byId = id => document.getElementById(id);
+
+    function monthlyPayment(principal, annualRate, months) {
+      const r = annualRate / 100 / 12;
+      if (months <= 0) return 0;
+      if (r === 0) return principal / months;
+      return principal * (r * Math.pow(1 + r, months)) / (Math.pow(1 + r, months) - 1);
+    }
+
+    function teaFromTna(tna) {
+      return (Math.pow(1 + (tna / 100 / 12), 12) - 1) * 100;
+    }
+
+    function amortization(principal, annualRate, months, payment, insurance = 0) {
+      const rows = [];
+      const r = annualRate / 100 / 12;
+      let balance = principal;
+      for (let i = 1; i <= Math.min(6, months); i++) {
+        const interest = balance * r;
+        const capital = Math.min(payment - interest, balance);
+        balance = Math.max(0, balance - capital);
+        rows.push({ month: i, payment: payment + insurance, capital, interest, balance });
+      }
+      return rows;
+    }
+
+    function addHistory(item) {
+      state.history.unshift({ ...item, id: Date.now(), date: new Date() });
+      renderAll();
+      showToast("Calculo guardado en historial");
+    }
+
+    function showToast(text) {
+      const toast = byId("toast");
+      toast.textContent = text;
+      toast.classList.add("show");
+      clearTimeout(showToast.timer);
+      showToast.timer = setTimeout(() => toast.classList.remove("show"), 1700);
+    }
+
+    function setTab(tab) {
+      state.tab = tab;
+      document.querySelectorAll(".screen").forEach(el => el.classList.remove("active"));
+      byId(`screen-${tab}`).classList.add("active");
+      document.querySelectorAll(".nav-btn").forEach(btn => btn.classList.toggle("active", btn.dataset.tab === tab));
+      renderAll();
+    }
+
+    function setCalculator(calc) {
+      state.calc = calc;
+      document.querySelectorAll("#calc-picker button").forEach(btn => btn.classList.toggle("active", btn.dataset.calc === calc));
+      document.querySelectorAll(".calculator").forEach(el => el.classList.add("hidden"));
+      byId(`calculator-${calc}`).classList.remove("hidden");
+    }
+
+    function tableHtml(headers, rows) {
+      return `<div class="table-wrap"><table><thead><tr>${headers.map(h => `<th>${h}</th>`).join("")}</tr></thead><tbody>${rows}</tbody></table></div>`;
+    }
+
+    function resultHtml(title, main, metrics, table = "") {
+      return `<div class="result-box stack">
+        <div>
+          <p class="muted">${title}</p>
+          <div class="big-value">${main}</div>
+        </div>
+        <div class="metrics">${metrics.map(m => `<div class="metric"><span>${m.label}</span><strong>${m.value}</strong></div>`).join("")}</div>
+        ${table}
+      </div>`;
+    }
+
+    function calcConsumer(save = true) {
+      const amount = +byId("consumer-amount").value;
+      const termInput = +byId("consumer-term").value;
+      const months = state.segments["consumer-term-unit"] === "years" ? termInput * 12 : termInput;
+      const rate = +byId("consumer-rate").value;
+      const insurance = +byId("consumer-insurance").value;
+      const basePayment = monthlyPayment(amount, rate, months);
+      const monthly = basePayment + insurance;
+      const totalPay = monthly * months;
+      const interest = (basePayment * months) - amount;
+      const tea = teaFromTna(rate);
+      const rows = amortization(amount, rate, months, basePayment, insurance).map(r =>
+        `<tr><td>Mes ${r.month}</td><td>${fmtMoney(r.payment)}</td><td>${fmtMoney(r.capital)}</td><td>${fmtMoney(r.interest)}</td><td>${fmtMoney(r.balance)}</td></tr>`
+      ).join("");
+      byId("consumer-results").innerHTML = resultHtml("Cuota mensual", fmtMoney(monthly), [
+        { label: "Total a pagar", value: fmtMoney(totalPay) },
+        { label: "Total intereses", value: fmtMoney(interest) },
+        { label: "Capital", value: fmtMoney(amount) },
+        { label: "TEA", value: `${fmtNum(tea)}%` }
+      ], tableHtml(["Mes", "Cuota", "Capital", "Interes", "Balance"], rows));
+      if (save) addHistory({ type: "consumer", name: "Prestamo Consumo", amount, result: monthly, resultLabel: "Cuota" });
+    }
+
+    function calcMortgage(save = true) {
+      const value = +byId("mortgage-value").value;
+      const downInput = +byId("mortgage-down").value;
+      const down = state.segments["mortgage-down-mode"] === "percent" ? value * downInput / 100 : downInput;
+      const years = Math.min(+byId("mortgage-years").value, 30);
+      byId("mortgage-years").value = years;
+      const months = years * 12;
+      const rate = +byId("mortgage-rate").value;
+      const mode = state.segments["mortgage-rate-mode"] === "fixed" ? "Fija" : "Variable";
+      const financed = Math.max(0, value - down);
+      const payment = monthlyPayment(financed, rate, months);
+      const totalPay = payment * months;
+      const interest = totalPay - financed;
+      byId("mortgage-results").innerHTML = resultHtml(`Cuota mensual ${mode.toLowerCase()}`, fmtMoney(payment), [
+        { label: "Monto financiado", value: fmtMoney(financed) },
+        { label: "Inicial requerido", value: fmtMoney(down) },
+        { label: "Total a pagar", value: fmtMoney(totalPay) },
+        { label: "Total intereses", value: fmtMoney(interest) }
+      ]);
+      if (save) addHistory({ type: "mortgage", name: "Prestamo Hipotecario", amount: value, result: payment, resultLabel: "Cuota" });
+    }
+
+    function investmentProjection(initial, monthly, annualRate, months, mode) {
+      const rows = [];
+      const r = annualRate / 100 / 12;
+      let value = initial;
+      for (let i = 1; i <= months; i++) {
+        const before = value + monthly;
+        let gain = 0;
+        if (mode === "simple") gain = initial * r;
+        if (mode === "compound") gain = before * r;
+        if (mode === "certificate") gain = value * r;
+        value = before + gain;
+        if (i <= 6) rows.push({ month: i, contribution: monthly, gain, value });
+      }
+      return { value, rows };
+    }
+
+    function calcInvestment(save = true) {
+      const initial = +byId("investment-initial").value;
+      const monthly = +byId("investment-monthly").value;
+      const rate = +byId("investment-rate").value;
+      const months = +byId("investment-term").value;
+      const mode = byId("investment-mode").value;
+      const projection = investmentProjection(initial, monthly, rate, months, mode);
+      const invested = initial + monthly * months;
+      const yieldTotal = projection.value - invested;
+      const returnPct = invested > 0 ? yieldTotal / invested * 100 : 0;
+      const monthlyYield = months > 0 ? yieldTotal / months : 0;
+      const rows = projection.rows.map(r =>
+        `<tr><td>Mes ${r.month}</td><td>${fmtMoney(r.contribution)}</td><td>${fmtMoney(r.gain)}</td><td>${fmtMoney(r.value)}</td></tr>`
+      ).join("");
+      byId("investment-results").innerHTML = resultHtml("Valor futuro", fmtMoney(projection.value), [
+        { label: "Capital invertido", value: fmtMoney(invested) },
+        { label: "Rendimiento total", value: fmtMoney(yieldTotal) },
+        { label: "% retorno", value: `${fmtNum(returnPct)}%` },
+        { label: "Rendimiento mensual", value: fmtMoney(monthlyYield) }
+      ], tableHtml(["Mes", "Aporte", "Rendimiento", "Valor"], rows));
+      if (save) addHistory({ type: "investment", name: "Inversiones", amount: initial, result: projection.value, resultLabel: "Valor futuro" });
+    }
+
+    function iconFor(type) {
+      return type === "mortgage" ? "H" : type === "investment" ? "%" : "$";
+    }
+
+    function historyItemHtml(item) {
+      const date = item.date.toLocaleString("es-DO", { dateStyle: "short", timeStyle: "short" });
+      return `<article class="list-item">
+        <span class="icon">${iconFor(item.type)}</span>
+        <div class="list-main">
+          <div class="list-title">${item.name}</div>
+          <div class="list-meta">${date} - ${fmtMoney(item.amount)}</div>
+        </div>
+        <div class="list-value">${item.resultLabel}<br>${fmtMoney(item.result)}</div>
+      </article>`;
+    }
+
+    function emptyHistoryHtml() {
+      return `<div class="empty">
+        <div class="empty-art">
+          <svg viewBox="0 0 118 90" aria-hidden="true">
+            <rect x="18" y="18" width="82" height="58" rx="12" fill="#ffffff" stroke="#4DB8B2"/>
+            <path d="M32 36h54M32 50h38M32 64h46" stroke="#00A19A" stroke-width="4" stroke-linecap="round"/>
+            <circle cx="92" cy="21" r="13" fill="#006D6A"/>
+            <path d="M87 21h10M92 16v10" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <h2>Sin calculos todavia</h2>
+          <p class="muted">Tus simulaciones de esta sesion apareceran aqui automaticamente.</p>
+        </div>
+      </div>`;
+    }
+
+    function renderHome() {
+      const last = state.history[0];
+      if (last) {
+        byId("home-last-value").textContent = fmtMoney(last.result);
+        byId("home-last-title").textContent = last.name;
+        byId("home-last-detail").textContent = `${last.resultLabel} sobre ${fmtMoney(last.amount)}`;
+      }
+      const recent = state.history.slice(0, 3);
+      byId("recent-list").innerHTML = recent.length ? recent.map(historyItemHtml).join("") : emptyHistoryHtml();
+    }
+
+    function renderHistory() {
+      byId("history-list").innerHTML = state.history.length ? state.history.map(historyItemHtml).join("") : emptyHistoryHtml();
+    }
+
+    function renderAll() {
+      renderHome();
+      renderHistory();
+    }
+
+    document.querySelectorAll(".nav-btn").forEach(btn => btn.addEventListener("click", () => setTab(btn.dataset.tab)));
+    document.querySelectorAll(".quick-btn").forEach(btn => btn.addEventListener("click", () => {
+      setTab("calc");
+      setCalculator(btn.dataset.quick);
+    }));
+
+    document.querySelectorAll("[data-segment]").forEach(group => {
+      group.addEventListener("click", event => {
+        const btn = event.target.closest("button");
+        if (!btn) return;
+        state.segments[group.dataset.segment] = btn.dataset.value;
+        group.querySelectorAll("button").forEach(el => el.classList.toggle("active", el === btn));
+      });
+    });
+
+    byId("calc-picker").addEventListener("click", event => {
+      const btn = event.target.closest("button");
+      if (btn) setCalculator(btn.dataset.calc);
+    });
+
+    byId("consumer-form").addEventListener("submit", event => { event.preventDefault(); calcConsumer(true); });
+    byId("mortgage-form").addEventListener("submit", event => { event.preventDefault(); calcMortgage(true); });
+    byId("investment-form").addEventListener("submit", event => { event.preventDefault(); calcInvestment(true); });
+
+    byId("clear-history").addEventListener("click", () => {
+      state.history = [];
+      renderAll();
+      showToast("Historial limpiado");
+    });
+
+    document.querySelectorAll("[data-switch]").forEach(btn => btn.addEventListener("click", () => btn.classList.toggle("on")));
+
+    byId("profile-name").addEventListener("input", event => {
+      const initials = event.target.value.trim().split(/\s+/).slice(0, 2).map(part => part[0] || "").join("").toUpperCase();
+      byId("avatar").textContent = initials || "RD";
+    });
+
+    byId("export-history").addEventListener("click", () => {
+      if (!state.history.length) {
+        showToast("No hay historial para exportar");
+        return;
+      }
+      const rows = ["tipo,fecha,monto,resultado"].concat(state.history.map(item =>
+        `${item.name},${item.date.toLocaleString("es-DO")},${item.amount},${item.result}`
+      ));
+      const blob = new Blob([rows.join("\n")], { type: "text/csv" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "historial-financiero-rd.csv";
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast("Historial exportado");
+    });
+
+    calcConsumer(false);
+    renderAll();
+  </script>
+</body>
+</html>
